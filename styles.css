@@ -1,4 +1,10 @@
+:root {
+    --font-color: #FFF;
+    --background-color: #000;
+}
+
 /* BEGIN CSS RESET; https://www.joshwcomeau.com/css/custom-css-reset/ */
+
 /*
   1. Use a more-intuitive box-sizing model.
 */
@@ -67,4 +73,48 @@ h6 {
 #__next {
     isolation: isolate;
 }
+
 /* END CSS RESET */
+
+html {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: var(--font-color);
+    text-align: center;
+}
+
+html,
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: var(--background-color);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.row img {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+}
+
+.fine-print{
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+
+    text-decoration: none;
+    color: var(--font-color);
+    font-size: small;
+}

@@ -1,0 +1,10 @@
+I have no claim over the icons used on this site. If you are a rightsholder and would like your content removed, please contact me at <matt+website@panevain.dev>
+
+SVG icons:
+https://iconmonstr.com/linkedin-1-svg/
+https://iconmonstr.com/github-1-svg/
+https://iconmonstr.com/spotify-1-svg/
+https://iconmonstr.com/paper-plane-7-svg/
+
+SVG icon license:
+https://iconmonstr.com/license/
