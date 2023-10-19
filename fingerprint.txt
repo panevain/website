@@ -16,7 +16,7 @@ Import my public key:
     gpg --sign-key matt@panevain.dev
 
 
-To write to me:
+To write to me choose one of the following:
 
     Encrypt:
 
@@ -31,11 +31,11 @@ To write to me:
         gpg --clearsign <filename>
 
 
-To read from me:
+To read from me choose one of the following:
 
     Decrypt:
 
-        gpg --decrypt <filename>.asc > <filename>
+        gpg --output <filename> --decrypt <filename>.asc
 
     Verify an encrypted, signed file:
 
