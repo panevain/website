@@ -135,6 +135,7 @@ section {
 
     text-decoration: none;
     font-weight: bolder;
+    color: var(--light-font-color);
 }
 
 @media only screen and (max-width: 600px) {
