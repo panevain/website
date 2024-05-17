@@ -20,24 +20,24 @@ To write to me choose one of the following:
 
     Encrypt:
 
-        gpg --encrypt --sign --armor -r matt@panevain.dev <filename>
+        gpg --output <filename>.gpg --encrypt --recipient matt@panevain.dev <filename>
 
-    Encrypt then sign:
+    Sign:
 
         gpg --output <filename>.sig --sign <filename>
 
     Sign in plaintext:
 
-        gpg --clearsign <filename>
+        gpg --output <filename>.asc --clearsign <filename>
 
 
 To read from me choose one of the following:
 
     Decrypt:
 
-        gpg --output <filename> --decrypt <filename>.asc
+        gpg --output <filename> --decrypt <filename>.gpg
 
-    Verify an encrypted, signed file:
+    Verify a signed file:
 
         gpg --output <filename> --decrypt <filename>.sig
 
@@ -46,4 +46,4 @@ To read from me choose one of the following:
         gpg --output <filename>.sig --detach-sig <filename>.asc
         gpg --verify <filename>.sig <filename>.asc
 
-    In any case, the output should have the correct key fingerprint and "Good signature". If it lacks either, it's not from me!
+    In any case, the output should have the key described at the top of this document.
