@@ -6,6 +6,14 @@ Expires 01/01/2026
 
 -------------------------------------------------------------------------------
 
+GPG User Manual:
+
+https://www.gnupg.org/gph/en/manual/book1.html
+
+See section 1 for specifics. A "quick start" guide is offered below:
+
+-------------------------------------------------------------------------------
+
 Import my public key:
 
     gpg --import matthew_newcomer.asc
