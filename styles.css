@@ -11,9 +11,18 @@
     }
 }
 
+
+html,
+body {
+    height: 100vh;
+}
+
 body {
     background-color: var(--background-color);
     color: var(--text-color);
+
+    display: flex;
+    flex-direction: column;
 }
 
 hr {
@@ -25,6 +34,10 @@ a {
     color: var(--link-color);
 }
 
+.content {
+    flex-grow: 1;
+}
+
 .svg-email-protection {
     height: 24px;
     vertical-align: middle;
@@ -32,12 +45,6 @@ a {
 
 .micro-text {
     font-size: .6rem;
-}
-
-.disclaimer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
 }
 
 a {
