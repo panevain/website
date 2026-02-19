@@ -4,6 +4,15 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "panevain.dev",
   description: "Matt Newcomer's Personal Site",
+  lang: 'en-US',
+  base: '/',
+  head: [],
+  cleanUrls: true, 
+  lastUpdated: true,
+  outDir: '../dist',
+  cacheDir: '../cache',
+  markdown: {},
+  vite: {}, vue: {},
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
