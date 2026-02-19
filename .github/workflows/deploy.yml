@@ -84,18 +84,23 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: "dist"
+      - name: Cache dist
+        uses: actions/cache/save@v5
+        with:
+          path: dist
+          key: dist-${{ github.sha }}
 
   lighthouse:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Restore workspace
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Restore dist
         uses: actions/cache/restore@v5
         with:
-          path: |
-            node_modules
-            .
-          key: workspace-${{ github.sha }}
+          path: dist
+          key: dist-${{ github.sha }}
       - name: Lighthouse audit
         uses: treosh/lighthouse-ci-action@v12
         with:
