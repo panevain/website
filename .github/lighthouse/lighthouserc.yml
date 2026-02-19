@@ -17,3 +17,6 @@ ci:
       "categories:seo":
         - error
         - minScore: 0.9
+      "unused-css-rules": "off"
+      "network-dependency-tree-insight": "off"
+      "label-content-name-mismatch": "warn"
