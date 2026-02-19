@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -11,30 +11,65 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
-  build:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: 'npm'
+          cache: "npm"
       - name: Install dependencies
         run: npm ci
+      - name: Cache workspace
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            node_modules
+            .
+          key: workspace-${{ github.sha }}
+
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore workspace
+        uses: actions/cache/restore@v5
+        with:
+          path: |
+            node_modules
+            .
+          key: workspace-${{ github.sha }}
+      - name: Lint
+        run: npm run lint
+      - name: Format check
+        run: npm run format:check
+
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore workspace
+        uses: actions/cache/restore@v5
+        with:
+          path: |
+            node_modules
+            .
+          key: workspace-${{ github.sha }}
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
       - name: Build
         run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: 'dist'
+          path: "dist"
 
   deploy:
     needs: build

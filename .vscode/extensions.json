@@ -1,8 +1,8 @@
 {
-    "recommendations": [
-        "github.vscode-github-actions",
-        "vue.volar",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode"
-    ]
+  "recommendations": [
+    "github.vscode-github-actions",
+    "vue.volar",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
+  ]
 }
