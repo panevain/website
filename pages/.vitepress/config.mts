@@ -6,7 +6,8 @@ export default defineConfig({
   description: "Matt Newcomer's Personal Site",
   lang: 'en-US',
   base: '/',
-  head: [],
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }],
+],
   cleanUrls: true, 
   lastUpdated: true,
   outDir: '../dist',
@@ -18,8 +19,9 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
     ],
-
-
+    editLink: {
+      pattern: 'https://github.com/panevain/website/edit/main/pages/:path'
+    },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/panevain/website' }
     ]
