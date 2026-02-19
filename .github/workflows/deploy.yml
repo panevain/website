@@ -51,8 +51,22 @@ jobs:
       - name: Format check
         run: npm run format:check
 
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore workspace
+        uses: actions/cache/restore@v5
+        with:
+          path: |
+            node_modules
+            .
+          key: workspace-${{ github.sha }}
+      - name: Test
+        run: npm test
+
   build:
-    needs: lint
+    needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
       - name: Restore workspace
