@@ -106,7 +106,6 @@ jobs:
         with:
           configPath: ./.github/lighthouse/lighthouserc.yml
           uploadArtifacts: true
-          runs: 3
 
   deploy:
     needs: [build, lighthouse]
