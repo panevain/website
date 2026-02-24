@@ -2,10 +2,8 @@ import { onMounted, onUnmounted, ref, type Ref } from "vue";
 import { type Viewport, screenToCell } from "~/composables/useCanvasRenderer";
 
 const CLICK_THRESHOLD = 4;
-const ZOOM_IN_FACTOR = 1.1;
-const ZOOM_OUT_FACTOR = 0.9;
-const MIN_CELL_SIZE = 4;
-const MAX_CELL_SIZE = 80;
+const MIN_CELL_SIZE = 2;
+const MAX_CELL_SIZE = 40;
 
 export function useCanvasInteraction(
   canvas: Ref<HTMLCanvasElement | null>,
@@ -104,8 +102,13 @@ export function useCanvasInteraction(
     const mx = (e.clientX - rect.left) * dpr;
     const my = (e.clientY - rect.top) * dpr;
 
+    // Normalize delta to pixels across devices/deltaMode
+    let delta = e.deltaY;
+    if (e.deltaMode === 1) delta *= 20;
+    if (e.deltaMode === 2) delta *= 400;
+
     const oldCs = viewport.cellSize.value;
-    const factor = e.deltaY > 0 ? ZOOM_OUT_FACTOR : ZOOM_IN_FACTOR;
+    const factor = Math.pow(0.999, delta);
     const newCs = Math.min(
       MAX_CELL_SIZE,
       Math.max(MIN_CELL_SIZE, oldCs * factor),
