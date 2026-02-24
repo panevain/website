@@ -16,6 +16,13 @@ export default defineConfig([
         "error",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
+      "vue/multi-word-component-names": "off",
+    },
+  },
+  {
+    files: ["**/*.ts", "**/*.mts", "**/*.vue"],
+    rules: {
+      "no-undef": "off",
     },
   },
   {

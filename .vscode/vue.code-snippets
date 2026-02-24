@@ -1,0 +1,18 @@
+{
+  "Vue": {
+    "description": "SFC w/ TS & module CSS",
+    "body": [
+      "<script setup lang=\"ts\">",
+      "    $0",
+      "</script>",
+      "",
+      "<template>",
+      "    ",
+      "</template>",
+      "",
+      "<style module lang=\"css\">",
+      "    ",
+      "</style>",
+    ],
+  },
+}

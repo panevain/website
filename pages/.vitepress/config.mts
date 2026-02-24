@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import { fileURLToPath } from "node:url";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -12,7 +13,13 @@ export default defineConfig({
   outDir: "../dist",
   cacheDir: "../cache",
   markdown: {},
-  vite: {},
+  vite: {
+    resolve: {
+      alias: {
+        "~": fileURLToPath(new URL("../..", import.meta.url)),
+      },
+    },
+  },
   vue: {},
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
