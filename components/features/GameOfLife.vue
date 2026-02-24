@@ -28,6 +28,7 @@ const props = withDefaults(
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const speedRef = ref(props.speed);
 const currentCellSize = ref(props.cellSize);
+const cellColor = ref("");
 const initialCenter = props.center ?? [0, 0];
 const offsetX = ref(initialCenter[0]);
 const offsetY = ref(initialCenter[1]);
@@ -50,7 +51,7 @@ if (props.autoplay) {
   onMounted(() => play());
 }
 
-const viewport = { offsetX, offsetY, cellSize: currentCellSize };
+const viewport = { offsetX, offsetY, cellSize: currentCellSize, cellColor };
 
 const { fps } = useCanvasRenderer(canvasRef, cells, viewport);
 const { mouseX, mouseY } = useCanvasInteraction(
@@ -88,16 +89,16 @@ function handleImport() {
     :style="{ width: props.width, height: props.height }"
   >
     <canvas ref="canvasRef" :class="$style.canvas" />
-    <div :class="$style.hud">
+    <div :class="[$style.infoOverlay, $style.hud]">
       <span v-if="mouseX !== null">{{ mouseX }}, {{ mouseY }}</span>
       <span>{{ zoomPercent }}</span>
     </div>
-    <div :class="$style.stats">
+    <div :class="[$style.infoOverlay, $style.stats]">
       <span>gen {{ generation }}</span>
       <span>{{ cells.size }} cells</span>
       <span>{{ fps }} fps</span>
     </div>
-    <div :class="$style.controls">
+    <div :class="[$style.glass, $style.controls]">
       <div :class="$style.group">
         <button
           :class="[$style.iconBtn, isRunning && $style.active]"
@@ -236,6 +237,24 @@ function handleImport() {
       </div>
       <div :class="$style.divider" />
       <div :class="$style.group">
+        <label :class="[$style.iconBtn, $style.colorPicker]" title="Cell color">
+          <svg width="16" height="16" viewBox="0 0 16 16">
+            <rect
+              x="2"
+              y="2"
+              width="12"
+              height="12"
+              rx="3"
+              :fill="cellColor || 'currentColor'"
+              stroke="currentColor"
+              stroke-width="1.2"
+            />
+          </svg>
+          <input v-model="cellColor" type="color" :class="$style.colorInput" />
+        </label>
+      </div>
+      <div :class="$style.divider" />
+      <div :class="$style.group">
         <button
           :class="$style.iconBtn"
           title="Export to clipboard"
@@ -288,10 +307,41 @@ function handleImport() {
         </button>
       </div>
     </div>
+    <a
+      :class="[$style.glass, $style.infoLink]"
+      href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life"
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Conway's Game of Life — Wikipedia"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16">
+        <circle
+          cx="8"
+          cy="8"
+          r="6.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+        <text
+          x="8"
+          y="12"
+          text-anchor="middle"
+          fill="currentColor"
+          font-size="10"
+          font-family="serif"
+          font-style="italic"
+        >
+          i
+        </text>
+      </svg>
+    </a>
   </div>
 </template>
 
 <style module lang="css">
+/* ── Layout ── */
+
 .wrapper {
   position: relative;
   overflow: hidden;
@@ -311,26 +361,28 @@ function handleImport() {
   cursor: grabbing;
 }
 
-.controls {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px;
+/* ── Shared: frosted glass panel ── */
+
+.glass {
   background: color-mix(in srgb, var(--vp-c-bg) 85%, transparent);
   backdrop-filter: blur(8px);
-  border-radius: 10px;
   border: 1px solid var(--vp-c-divider);
+}
+
+/* ── Shared: non-interactive info overlay ── */
+
+.infoOverlay {
+  position: absolute;
+  top: 8px;
+  display: flex;
+  font-family: monospace;
+  background: color-mix(in srgb, var(--vp-c-bg) 75%, transparent);
+  border-radius: 4px;
+  pointer-events: none;
   user-select: none;
 }
 
-.group {
-  display: flex;
-  gap: 2px;
-}
+/* ── Shared: 32px toolbar button ── */
 
 .iconBtn {
   display: flex;
@@ -366,6 +418,26 @@ function handleImport() {
   color: var(--vp-c-brand-1);
 }
 
+/* ── Controls toolbar ── */
+
+.controls {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 10px;
+  user-select: none;
+}
+
+.group {
+  display: flex;
+  gap: 2px;
+}
+
 .divider {
   width: 1px;
   height: 18px;
@@ -373,21 +445,7 @@ function handleImport() {
   flex-shrink: 0;
 }
 
-.hud {
-  position: absolute;
-  top: 8px;
-  left: 10px;
-  display: flex;
-  gap: 12px;
-  font-size: 12px;
-  font-family: monospace;
-  color: var(--vp-c-text-2);
-  background: color-mix(in srgb, var(--vp-c-bg) 75%, transparent);
-  padding: 2px 8px;
-  border-radius: 4px;
-  pointer-events: none;
-  user-select: none;
-}
+/* ── Speed slider ── */
 
 .speedGroup {
   display: flex;
@@ -408,23 +466,68 @@ function handleImport() {
   accent-color: var(--vp-c-brand-1);
 }
 
-.stats {
+/* ── Color picker ── */
+
+.colorPicker {
+  position: relative;
+}
+
+.colorInput {
   position: absolute;
-  top: 8px;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+/* ── HUD (top-left) ── */
+
+.hud {
+  left: 10px;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+  padding: 2px 8px;
+}
+
+/* ── Stats (top-right) ── */
+
+.stats {
   right: 10px;
-  display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 2px;
   font-size: 11px;
-  font-family: monospace;
   font-variant-numeric: tabular-nums;
   color: var(--vp-c-text-3);
-  background: color-mix(in srgb, var(--vp-c-bg) 75%, transparent);
   padding: 4px 8px;
-  border-radius: 4px;
-  pointer-events: none;
-  user-select: none;
   line-height: 1.4;
+}
+
+/* ── Info link (bottom-right) ── */
+
+.infoLink {
+  position: absolute;
+  bottom: 12px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--vp-c-text-3);
+  text-decoration: none;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.infoLink:hover {
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg-soft);
 }
 </style>

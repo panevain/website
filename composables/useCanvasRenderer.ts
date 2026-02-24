@@ -5,6 +5,7 @@ export interface Viewport {
   offsetX: Ref<number>;
   offsetY: Ref<number>;
   cellSize: Ref<number>;
+  cellColor?: Ref<string>;
 }
 
 export function screenToCell(
@@ -70,8 +71,14 @@ export function useCanvasRenderer(
     if (styleFrameCount % STYLE_REFRESH_INTERVAL === 0) {
       const style = getComputedStyle(el);
       cachedBg = style.getPropertyValue("--vp-c-bg").trim() || "#ffffff";
-      cachedCell = style.getPropertyValue("--vp-c-text-1").trim() || "#000000";
       cachedGrid = style.getPropertyValue("--vp-c-divider").trim() || "#e2e2e3";
+      if (!viewport.cellColor?.value) {
+        cachedCell =
+          style.getPropertyValue("--vp-c-text-1").trim() || "#000000";
+      }
+    }
+    if (viewport.cellColor?.value) {
+      cachedCell = viewport.cellColor.value;
     }
     styleFrameCount++;
 
