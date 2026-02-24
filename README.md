@@ -1,6 +1,6 @@
 # panevain.dev
 
-[![Deploy to GitHub Pages](https://github.com/panevain/website/actions/workflows/deploy.yml/badge.svg?branch=main&event=deployment_status)](https://github.com/panevain/website/actions/workflows/deploy.yml)
+[![Deploy to GitHub Pages](https://github.com/panevain/website/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/panevain/website/actions/workflows/deploy.yml)
 
 Matt Newcomer's personal site, built with [VitePress](https://vitepress.dev/)
 and Vue 3.
